@@ -1,0 +1,22 @@
+version: '3'
+services:
+  app:
+    build: .
+    env_file: .env
+    ports:
+      - '${PORT:-1366}:5000'
+    volumes:
+      - '.:/usr/src/app'
+    depends_on:
+      - redis_db
+      - mongo_db
+  mongo_db:
+    image: mongo
+    volumes:
+      - /data/mongo
+  redis_db:
+    image: redis
+    volumes:
+      - /data/redis
+  proxy_nginx:
+    image: nginx
